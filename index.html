@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="Style.css">
+    <link rel="icon" type="image/png" href="img/logo.png" />
+    <title>MY BOOK</title>
+</head>
+<body>
+    <div class="titre">
+        <h1>MY BOOK</h1>
+    </div>
+
+    <div>
+    <form id="Form" name="Form">
+        <div class="tit">
+            <h3>Information</h3>
+        </div>
+        <div class="box">
+            <!-- TITLE -->
+            <div class="MiniBox test">
+                <label id="lbl">Title :</label><br>
+                <input type="text" id="title" class="title" />
+                <p class="validation" ></p>
+            </div>
+            <br>
+            <!-- AUTHOR -->
+            <div class="MiniBox">
+                <label>Author :</label><br>
+                <input type="text" id="auteur" class="title"  />
+                <p class="validation" ></p>
+            </div>
+            <br>
+            <!-- PRICE -->
+            <div class="MiniBox">
+                <label>Price :</label> <br>
+                <input type="text" id="prix" />
+                <p class="validation" id="msgPrix" ></p>
+            </div>
+            <br>
+            <!-- DATE -->
+            <div class="MiniBox">
+                <label>Publication Date :</label><br> 
+                <input type="text" id="date" />
+                <p class="validation" id="msgDate" ></p>
+            </div>
+            <br>
+             <!-- EMAIL -->
+            <div class="MiniBox">
+                <label>email :</label><br> 
+                <input type="text" id="email" />
+                <p class="validation" id="errorEmail"></p>
+            </div>
+            <br>
+            <!-- DROPDOWNLIST -->
+            <div class="MiniBox">
+                <label>Language :</label><br>
+                <select id="langue" name="langue">
+                    <option disabled selected hidden value="0">-- select langue--</option>
+                    <option value="Français">Français</option>
+                    <option value="Anglais">Anglais</option>
+                    <option value="Arabe">Arabe</option>
+                </select>
+                <p id="lng" ></p>
+            </div>
+            <br><br>
+            <!--RADIO BUTTON -->
+            <div class="radio">        
+                <input type="radio" id="Roman" name="season" value="Roman" class="type" id="radio1">
+                <label for="Roman">Roman</label>
+                <input type="radio" id="Essai" name="season" value="Essai" class="type" >
+                <label for="Essai">Essai</label>
+                <input type="radio" id="Bande-Dessinée" name="season" value="Bande-Dessinée" class="type"  >
+                <label for="Bande-Dessinée">Bande-Dessinée</label>
+                <p id="radiobtn"></p>
+            </div>
+            <br>
+            <div class="MiniBox">
+                <input type='submit' value='Valider' id='btn'>
+                <br>
+            </div>
+            <br> 
+        </div>
+        <br>
+    </form>
+    <br>
+    <!-- TABLE -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Publication Date</th>
+                <th>Email</th>
+                <th>Language</th>
+                <th>Type</th>     
+                <th>Delete/Edit</th>
+            </tr>
+        </thead>
+        <tbody  id="table">
+
+        </tbody>
+    </table>
+    
+    <!-- js  -->
+    <script>
+        var Titre = document.getElementById("title");
+        var Auteur = document.getElementById("auteur");
+        var Prix = document.getElementById("prix");
+        var date = document.getElementById("date");
+        var valida= document.getElementsByClassName("validation");
+        var radioCheck=document.getElementById("radiobtn");
+        var input = document.getElementsByTagName("input");
+        var P=document.getElementsByTagName("p");
+        var langue=document.getElementById("langue");
+        var msgPrix=document.getElementById("msgPrix");
+        var table = document.getElementById("table");
+        var type=document.getElementsByClassName("type");
+        var email=document.getElementById("email");
+        var errorEmail=document.getElementById("errorEmail");
+        var msgDate=document.getElementById("msgDate");
+       
+    class Ouvrage{
+        constructor(Titre,Nom_lauteur,Prix,date,Email,Langue,Type){
+            this.Titre=Titre;
+            this.Nom_lauteur=Nom_lauteur;
+            this.Prix=Prix;
+            this.date=date;
+            this.Email=Email;
+            this.Langue=Langue;
+            this.Type=Type;        
+        }
+        DétailOuvrage(){
+            return "L'ouvrage" + Titre + "est un" + Type + "en langue" + Langue + ", écrit par" + Nom_lauteur + "et publié le"+ date +". Le prix de"+ Titre + "est de "+ Prix + "Dhs.";
+        }
+    }
+    var list=[];
+    var listOvrage=JSON.parse(localStorage.getItem("lstOuvrage"));
+        if(listOvrage!=null){
+            for(i=0;i<listOvrage.length;i++){
+                var ouvrage = new Ouvrage(listOvrage[i].Titre,listOvrage[i].Nom_lauteur,listOvrage[i].Prix,listOvrage[i].date,listOvrage[i].Email,listOvrage[i].Langue,listOvrage[i].Type);
+                list.push(ouvrage);
+            }
+        }
+        ///////////////insert table/////////////////
+        function InsertTable()
+        {
+            for(var i=0;i<list.length;i++){
+                var newRow = table.insertRow(-1);
+                        newRow.insertCell(0).innerHTML = list[i].Titre;
+                        newRow.insertCell(1).innerHTML = list[i].Nom_lauteur;
+                        newRow.insertCell(2).innerHTML = list[i].Prix;
+                        newRow.insertCell(3).innerHTML = list[i].date;
+                        newRow.insertCell(4).innerHTML = list[i].Email;
+                        newRow.insertCell(5).innerHTML = list[i].Langue;
+                        newRow.insertCell(6).innerHTML = list[i].Type;
+                        newRow.insertCell(7).innerHTML='<input type="submit" value="Edit" onclick="EditRow(this)" class="btn" id="btnEdit">'
+                    + '<input type="submit" onclick="deleteRow(this)"  value="Delete" class="btn" id="btnDelete">';
+            }
+        }
+        InsertTable();
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+      
+
+        function validation(e){
+            //////required => textbox
+            var no_valide=0;     
+            e.preventDefault();
+            for(var i = 0; i<4;i++){
+                if (input[i].value == ""){
+                    input[i].nextElementSibling.innerHTML="This field is required";
+                    input[i].style.borderColor="red";
+                    no_valide++;
+                }
+                else{
+                    //input[i].nextElementSibling.innerHTML="valider";
+                    input[i].style.borderColor="green"
+                }
+            }
+
+            //////require => radio button
+            var getSelectedValue = document.querySelector(   
+                 'input[name="season"]:checked');   
+                
+            if(getSelectedValue != null) {   
+                //document.getElementById("radiobtn").innerHTML = getSelectedValue.value + "type  is selected";
+                // document.getElementById("radio1").style.borderColor= "green"  
+            }   
+            else {   
+                document.getElementById("radiobtn").innerHTML = "*You have not selected any type";  
+                no_valide++; 
+            } 
+            
+            //////require => dropdownlist
+            if(langue.value=="0")
+            {
+                lng.innerHTML="Please select an option!";
+                langue.style.borderColor="red"
+                no_valide++;
+            }
+            else{
+                //lng.innerHTML="valider";
+                langue.style.borderColor="green"
+                
+            }
+            //// validation => email
+            var  regexEmail= /^(((\w+)(\.)(\w+))|((\w+)))(@)(\w+)(\.)(\w+)$/;
+            if(email.value !=="" ){
+                if(regexEmail.test(email.value)){
+                    errorEmail.innerHTML="good"
+                    email.style.border="green"
+                }
+                else{
+                    errorEmail.innerHTML="not good"
+                    no_valide++;
+                }
+            }else{
+                errorEmail.innerHTML="This field is required"
+                no_valide++;
+            }
+            //// validation => date
+            var regexPrice = /^(((0)[1-9]|[1-2][0-9])|(3)[0-1])(\/)(([0][1-9])|([1][0-2]))(\/)([0-9]{4})$/;
+            if(date.value!==""){
+                if(regexPrice.test(date.value)){
+                    msgDate.innerHTML="valider"
+                }
+                else{
+                    msgDate.innerHTML="NoValider"
+                }
+            }
+            else{
+                msgDate.innerHTML="This field is required"
+            }
+            //// validation => price
+            var regexrice= /^[0-9]+((\.[0-9]{2})|())$/
+            if(Prix.value !=="" )
+            {
+                if(regexrice.test(Prix.value))
+                {
+                    msgPrix.innerHTML="valider"
+                }
+                else{
+                    msgPrix.innerHTML="no valider";
+                    Prix.style.borderColor="red"
+                    no_valide++;
+                }
+               
+            }
+            else{
+                msgPrix.innerHTML="This field is required";
+                Prix.style.borderColor="red"
+                no_valide++;
+            }
+
+            /////////////////////////////////
+            if(no_valide==0)
+            {
+                var CellType="";
+                    for(i=0;i<type.length;i++)
+                    {
+                        if(type[i].checked)
+                        {
+                            CellType=type[i].value;
+                        }
+                    }
+                    var Lng = langue.selectedIndex;
+                    var ouvrage = new Ouvrage(Titre.value,Auteur.value,Prix.value,date.value,email.value,langue.options[langue.selectedIndex].value,CellType);
+                    list.push(ouvrage);
+                    trie();
+                    localStorage.setItem("lstOuvrage",JSON.stringify(list));
+                    table.innerHTML="";
+                    InsertTable();
+                    resetForm();
+            }
+    }
+    document.getElementsByTagName("form")[0].addEventListener('submit', validation);
+    function trie(){
+        list.sort(function(a,b){
+            if(a.Titre.toUpperCase() < b.Titre.toUpperCase())
+            {
+                return -1;
+            }
+            });
+    }
+    //////////emptying textbox 
+        function resetForm(){
+            for(var i = 0; i<4;i++){
+                input[i].value = "";         
+            } 
+            langue.value="-- select langue--"; 
+            email.value="";
+            var x = document.getElementsByName("season");
+            var i;
+            for (i = 0; i < x.length; i++) {
+                if(x[i].type == "radio") {
+                    x[i].checked = false;
+                }
+            }
+            Titre.style.borderColor="none"
+            langue.style.border="none"
+        }
+
+    /////////////////////////////////////DELETE/////////////////////////////////////////////
+        function deleteRow(r) {
+                if(confirm('Are you sure to delete this record ?')){
+                    var i = r.parentNode.parentNode.rowIndex;
+                    table.deleteRow(i);
+                }
+        }    
+    /////////////////////////////////////EDIT/////////////////////////////////////////////      
+        function EditRow(r){
+            var i = r.parentNode.parentNode.rowIndex;
+            var R=table.rows[i];
+            if(r.value=="Edit"  ){   
+                Titre.value = R.cells[0].innerHTML;
+                Auteur.value= R.cells[1].innerHTML;
+                Prix.value= R.cells[2].innerHTML;
+                date.value= R.cells[3].innerHTML;
+                langue.value=R.cells[4].innerHTML;
+                for(i=0;i<type.length;i++)
+                {
+                    if(R.cells[5].innerHTML==type[i].value)
+                    {
+                        type[i].checked=true;
+                    }
+                }  
+                r.value="save"
+                document.getElementById('btn').setAttribute("disabled","true");         
+            } 
+                     
+            else{
+                R.cells[0].innerHTML = Titre.value;
+                R.cells[1].innerHTML =  Auteur.value;
+                R.cells[2].innerHTML =  Prix.value;
+                R.cells[3].innerHTML =  date.value;
+                R.cells[4].innerHTML =  langue.value;
+                for(i=0;i<type.length;i++)
+                {
+                    if(type[i].checked==true)
+                    {
+                        R.cells[5].innerHTML=type[i].value;
+                    }
+                } 
+                r.value="Edit"
+                document.getElementById('btn').removeAttribute("disabled");  
+                resetForm();          
+            } 
+        }
+                  
+        //////character strings with a maximum length of 30
+        (function(){ document.addEventListener("keyup", function(event){ 
+            const lengthmax=30;
+            if(event.target.matches(".title")){
+                const value = event.target.value;
+                const valueLength =event.target.value.length;
+                const remainingChars=lengthmax-valueLength;
+                if(valueLength>lengthmax)
+                {
+                    event.target.value=value.substr(0,lengthmax);
+                    return;
+                }
+                event.target.nextElementSibling.innerHTML=remainingChars+ "/30" +" characters remaining";
+            }
+        })
+    })();
+
+    </script>
+</body>
+</html>
