@@ -18,7 +18,7 @@ body{
     width: 35%;
     border-radius: 30px;
     line-height: 25px;
-    margin-left: 88px;
+    margin-left: 30px;
     margin-top: 100px;
 }
 
@@ -53,17 +53,22 @@ body{
     width: 270px;
 }
 .box .radio input{
-    /* border-radius: 10px;
+    border-radius: 10px;
     height: 20px;
     width: 20px;
     border-style: groove;
-    margin-left: 50px; */
+    margin-left: 50px;
 }
-
-#btn{
-    border: 0;
+#btn {
     position: absolute;
-    left: 390px;
+    left: 365px;
+}
+#btnPrint{
+    position: absolute;
+    left: 234px;
+}
+#btn ,#btnPrint{
+    border: 0;  
     width: 100px;
     height: 40px;
     background-color: #996d56;
@@ -78,9 +83,16 @@ body{
   transform: translateY(-7px);
   cursor: pointer;
 }
+#btnPrint:hover{
+    background-color: #5f4437;
+    box-shadow: 0px 15px 20px rgba(95, 68, 68, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+    cursor: pointer;
+}
 table{
     position: absolute;
-    left: 613PX;
+    left: 522PX;
     top: 357px;
     color: #fff;
 }

@@ -36,21 +36,21 @@
             <!-- PRICE -->
             <div class="MiniBox">
                 <label>Price :</label> <br>
-                <input type="text" id="prix" />
+                <input type="text" id="prix" placeholder="00.00" />
                 <p class="validation" id="msgPrix" ></p>
             </div>
             <br>
             <!-- DATE -->
             <div class="MiniBox">
                 <label>Publication Date :</label><br> 
-                <input type="text" id="date" />
+                <input type="text" id="date" placeholder="dd/mm/yyyy" />
                 <p class="validation" id="msgDate" ></p>
             </div>
             <br>
              <!-- EMAIL -->
             <div class="MiniBox">
                 <label>email :</label><br> 
-                <input type="text" id="email" />
+                <input type="text" id="email" placeholder="example.test@test.com"/>
                 <p class="validation" id="errorEmail"></p>
             </div>
             <br>
@@ -68,8 +68,8 @@
             <br><br>
             <!--RADIO BUTTON -->
             <div class="radio">        
-                <input type="radio" id="Roman" name="season" value="Roman" class="type" id="radio1">
-                <label for="Roman">Roman</label>
+                <input type="radio" id="Roman" name="season" value="Roman" class="type" id="radio1"> Roman
+                <!-- <label for="Roman">Roman</label> -->
                 <input type="radio" id="Essai" name="season" value="Essai" class="type" >
                 <label for="Essai">Essai</label>
                 <input type="radio" id="Bande-Dessinée" name="season" value="Bande-Dessinée" class="type"  >
@@ -78,7 +78,8 @@
             </div>
             <br>
             <div class="MiniBox">
-                <input type='submit' value='Valider' id='btn'>
+                <input type='submit' value='validate' id='btn' >
+                <input type='submit' onclick="btnprint()" value='Print' id="btnPrint" class="btn1" >
                 <br>
             </div>
             <br> 
@@ -87,26 +88,33 @@
     </form>
     <br>
     <!-- TABLE -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Price</th>
-                <th>Publication Date</th>
-                <th>Email</th>
-                <th>Language</th>
-                <th>Type</th>     
-                <th>Delete/Edit</th>
-            </tr>
-        </thead>
-        <tbody  id="table">
+    <div id="table1">
+        <table border="1" >
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Publication Date</th>
+                    <th>Email</th>
+                    <th>Language</th>
+                    <th>Type</th>     
+                    <th>Delete/Edit</th>
+                </tr>
+            </thead>
+            <tbody  id="table">
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+    <iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank">
+        
+    </iframe>
     
     <!-- js  -->
     <script>
+
+        /////////////// Variable declaration ////////////////////////////////
         var Titre = document.getElementById("title");
         var Auteur = document.getElementById("auteur");
         var Prix = document.getElementById("prix");
@@ -123,28 +131,32 @@
         var errorEmail=document.getElementById("errorEmail");
         var msgDate=document.getElementById("msgDate");
        
-    class Ouvrage{
-        constructor(Titre,Nom_lauteur,Prix,date,Email,Langue,Type){
-            this.Titre=Titre;
-            this.Nom_lauteur=Nom_lauteur;
-            this.Prix=Prix;
-            this.date=date;
-            this.Email=Email;
-            this.Langue=Langue;
-            this.Type=Type;        
+        /////////////////////////// 
+        class Ouvrage{
+            constructor(Titre,Nom_lauteur,Prix,date,Email,Langue,Type){
+                this.Titre=Titre;
+                this.Nom_lauteur=Nom_lauteur;
+                this.Prix=Prix;
+                this.date=date;
+                this.Email=Email;
+                this.Langue=Langue;
+                this.Type=Type;        
+            }
+            DétailOuvrage(){
+                return "L'ouvrage" + Titre + "est un" + Type + "en langue" + Langue + ", écrit par" + Nom_lauteur + "et publié le"+ date +". Le prix de"+ Titre + "est de "+ Prix + "Dhs.";
+            }
         }
-        DétailOuvrage(){
-            return "L'ouvrage" + Titre + "est un" + Type + "en langue" + Langue + ", écrit par" + Nom_lauteur + "et publié le"+ date +". Le prix de"+ Titre + "est de "+ Prix + "Dhs.";
-        }
-    }
-    var list=[];
-    var listOvrage=JSON.parse(localStorage.getItem("lstOuvrage"));
+
+        ///////////// localStorage ////////////////
+        var list=[];
+        var listOvrage=JSON.parse(localStorage.getItem("lstOuvrage"));
         if(listOvrage!=null){
             for(i=0;i<listOvrage.length;i++){
                 var ouvrage = new Ouvrage(listOvrage[i].Titre,listOvrage[i].Nom_lauteur,listOvrage[i].Prix,listOvrage[i].date,listOvrage[i].Email,listOvrage[i].Langue,listOvrage[i].Type);
                 list.push(ouvrage);
             }
         }
+
         ///////////////insert table/////////////////
         function InsertTable()
         {
@@ -163,35 +175,34 @@
         }
         InsertTable();
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////// validation /////////////////////
       
 
         function validation(e){
             //////required => textbox
             var no_valide=0;     
             e.preventDefault();
-            for(var i = 0; i<4;i++){
+            for(var i = 0; i<6;i++){
                 if (input[i].value == ""){
                     input[i].nextElementSibling.innerHTML="This field is required";
                     input[i].style.borderColor="red";
                     no_valide++;
                 }
                 else{
-                    //input[i].nextElementSibling.innerHTML="valider";
-                    input[i].style.borderColor="green"
+                    input[i].nextElementSibling.innerHTML="";
+                    input[i].style.borderColor="none"
                 }
             }
 
             //////require => radio button
             var getSelectedValue = document.querySelector(   
-                 'input[name="season"]:checked');   
-                
+                 'input[name="season"]:checked');          
             if(getSelectedValue != null) {   
-                //document.getElementById("radiobtn").innerHTML = getSelectedValue.value + "type  is selected";
-                // document.getElementById("radio1").style.borderColor= "green"  
+                document.getElementById("radiobtn").innerHTML = " ";
+                
             }   
             else {   
-                document.getElementById("radiobtn").innerHTML = "*You have not selected any type";  
+                document.getElementById("radiobtn").innerHTML = "You have not selected any type";  
                 no_valide++; 
             } 
             
@@ -203,37 +214,44 @@
                 no_valide++;
             }
             else{
-                //lng.innerHTML="valider";
-                langue.style.borderColor="green"
+                lng.innerHTML="";
+                // langue.style.borderColor="green"
                 
             }
             //// validation => email
             var  regexEmail= /^(((\w+)(\.)(\w+))|((\w+)))(@)(\w+)(\.)(\w+)$/;
             if(email.value !=="" ){
                 if(regexEmail.test(email.value)){
-                    errorEmail.innerHTML="good"
-                    email.style.border="green"
+                     errorEmail.innerHTML=" "
+                     email.style.border="none"
                 }
                 else{
-                    errorEmail.innerHTML="not good"
+                    errorEmail.innerHTML="Format Email not valid";
+                    email.style.borderColor="red"
                     no_valide++;
                 }
             }else{
                 errorEmail.innerHTML="This field is required"
+                email.style.borderColor="red"
                 no_valide++;
             }
             //// validation => date
             var regexPrice = /^(((0)[1-9]|[1-2][0-9])|(3)[0-1])(\/)(([0][1-9])|([1][0-2]))(\/)([0-9]{4})$/;
             if(date.value!==""){
                 if(regexPrice.test(date.value)){
-                    msgDate.innerHTML="valider"
+                     msgDate.innerHTML="";
+                     msgDate.style.border="none"
                 }
                 else{
-                    msgDate.innerHTML="NoValider"
+                    msgDate.innerHTML="Format date not valid";
+                    date.style.borderColor="red";
+                    no_valide++;
                 }
             }
             else{
-                msgDate.innerHTML="This field is required"
+                msgDate.innerHTML="This field is required";
+                date.style.borderColor="red";
+                no_valide++;
             }
             //// validation => price
             var regexrice= /^[0-9]+((\.[0-9]{2})|())$/
@@ -241,10 +259,11 @@
             {
                 if(regexrice.test(Prix.value))
                 {
-                    msgPrix.innerHTML="valider"
+                     msgPrix.innerHTML="";
+                     msgPrix.style.borderColor="";
                 }
                 else{
-                    msgPrix.innerHTML="no valider";
+                    msgPrix.innerHTML="This is not number / Number is negative";
                     Prix.style.borderColor="red"
                     no_valide++;
                 }
@@ -275,8 +294,12 @@
                     table.innerHTML="";
                     InsertTable();
                     resetForm();
+                    // var lbl=document.getElementsByTagName("label");
+                    // for(var i = 0; i<8;i++){
+                    //     lbl[i].innerHTML = "";         
+                    // } 
             }
-    }
+        }
     document.getElementsByTagName("form")[0].addEventListener('submit', validation);
     function trie(){
         list.sort(function(a,b){
@@ -286,78 +309,89 @@
             }
             });
     }
-    //////////emptying textbox 
-        function resetForm(){
-            for(var i = 0; i<4;i++){
-                input[i].value = "";         
-            } 
-            langue.value="-- select langue--"; 
-            email.value="";
-            var x = document.getElementsByName("season");
-            var i;
-            for (i = 0; i < x.length; i++) {
-                if(x[i].type == "radio") {
-                    x[i].checked = false;
-                }
+    ////////// emptying textbox ////////////////////
+    function resetForm(){
+        for(var i = 0; i<5;i++){
+            input[i].value = "";         
+        } 
+        langue.value="-- select langue--"; 
+        email.value="";
+        var x = document.getElementsByName("season");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            if(x[i].type == "radio") {
+                x[i].checked = false;
             }
-            Titre.style.borderColor="none"
-            langue.style.border="none"
         }
+        Titre.style.borderColor="none"
+        langue.style.border="none"
+    }
 
     /////////////////////////////////////DELETE/////////////////////////////////////////////
-        function deleteRow(r) {
-                if(confirm('Are you sure to delete this record ?')){
-                    var i = r.parentNode.parentNode.rowIndex-1;
-                    list.splice(i,1);
-                    localStorage.setItem("lstOuvrage",JSON.stringify(list));
-                    table.innerHTML="";
-                    InsertTable();
-                    
-                }
-        }    
+    function deleteRow(r) {
+        if(confirm('Are you sure to delete this record ?')){
+            var i = r.parentNode.parentNode.rowIndex-1;
+            list.splice(i,1);
+            localStorage.setItem("lstOuvrage",JSON.stringify(list));
+            table.innerHTML="";
+            InsertTable();           
+        }
+    } 
+
     /////////////////////////////////////EDIT/////////////////////////////////////////////      
         function EditRow(r){
-            var i = r.parentNode.parentNode.rowIndex;
+            var i = r.parentNode.parentNode.rowIndex-1;
             var R=table.rows[i];
             if(r.value=="Edit"  ){   
                 Titre.value = R.cells[0].innerHTML;
                 Auteur.value= R.cells[1].innerHTML;
                 Prix.value= R.cells[2].innerHTML;
                 date.value= R.cells[3].innerHTML;
-                langue.value=R.cells[4].innerHTML;
+                email.value=R.cells[4].innerHTML;
+                langue.value=R.cells[5].innerHTML;
                 for(i=0;i<type.length;i++)
                 {
-                    if(R.cells[5].innerHTML==type[i].value)
+                    if(R.cells[6].innerHTML==type[i].value)
                     {
                         type[i].checked=true;
                     }
-                }  
+                } 
                 r.value="save"
                 document.getElementById('btn').setAttribute("disabled","true");         
             } 
                      
             else{
-                R.cells[0].innerHTML = Titre.value;
-                R.cells[1].innerHTML =  Auteur.value;
-                R.cells[2].innerHTML =  Prix.value;
-                R.cells[3].innerHTML =  date.value;
-                R.cells[4].innerHTML =  langue.value;
-                for(i=0;i<type.length;i++)
+                list[i].Titre = Titre.value;
+                list[i].Nom_lauteur =  Auteur.value;
+                list[i].Prix =  Prix.value;
+                list[i].date =  date.value;
+                list[i].Email= email.value;
+                list[i].Langue =  langue.value;
+                for(j=0;j<type.length;j++)
                 {
-                    if(type[i].checked==true)
+                    if(type[j].checked==true)
                     {
-                        R.cells[5].innerHTML=type[i].value;
+                        list[i].Type=type[j].value;
                     }
                 } 
                 table.innerHTML="";
-                localStorage.setItem("lstOuvrage",JSON.stringify(list));
-                InsertTable();
+                trie();  
+                localStorage.setItem("lstOuvrage",JSON.stringify(list));   
+                InsertTable();  
                 r.value="Edit"
                 document.getElementById('btn').removeAttribute("disabled");  
-                resetForm();          
+                resetForm();           
             } 
         }
-                  
+
+        //////////// Print ////////////////////////
+        function btnprint(){
+            window.frames["print_frame"].document.body.innerHTML =   
+            document.getElementById("table1").innerHTML;
+            window.frames["print_frame"].window.focus();
+            window.frames["print_frame"].window.print();
+        } 
+
         //////character strings with a maximum length of 30
         (function(){ document.addEventListener("keyup", function(event){ 
             const lengthmax=30;
