@@ -51,6 +51,7 @@ body{
     border-radius: 10px;
     height: 30px;
     width: 270px;
+    cursor: pointer;
 }
 .box .radio input{
     border-radius: 10px;
@@ -58,6 +59,7 @@ body{
     width: 20px;
     border-style: groove;
     margin-left: 50px;
+    cursor: pointer;
 }
 #btn {
     position: absolute;
@@ -93,7 +95,7 @@ body{
 table{
     position: absolute;
     left: 522PX;
-    top: 357px;
+    top: 435px;
     color: #fff;
 }
 table td, table th {
@@ -154,3 +156,19 @@ table th {
 .tit h3{
     margin-top: 40px;
 }
+.demo{
+    background-color: #eccba2;
+    position: absolute;
+    left: 522PX;
+    top: 365px;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+/* .box .MiniBox select option{
+    border: 1px;
+    border-style: groove;
+    border-radius: 10px;
+    height: 30px;
+    width: 270px;
+} */

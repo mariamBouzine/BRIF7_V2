@@ -107,6 +107,9 @@
             </tbody>
         </table>
     </div>
+    <div class="demo">
+        <p id="demo"></p>
+    </div>>
     <iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank">
         
     </iframe>
@@ -143,7 +146,7 @@
                 this.Type=Type;        
             }
             DétailOuvrage(){
-                return "L'ouvrage" + Titre + "est un" + Type + "en langue" + Langue + ", écrit par" + Nom_lauteur + "et publié le"+ date +". Le prix de"+ Titre + "est de "+ Prix + "Dhs.";
+                return "L'ouvrage " +  this.Titre + " est un " + this.Type + " en langue " + this.Langue + ", écrit par " + this.Nom_lauteur + " et publié le "+  this.date +". Le prix de "+ this.Titre + " est de "+ this.Prix + "Dhs.";
             }
         }
 
@@ -291,6 +294,7 @@
                     list.push(ouvrage);
                     trie();
                     localStorage.setItem("lstOuvrage",JSON.stringify(list));
+                    document.getElementById("demo").innerHTML = ouvrage.DétailOuvrage();
                     table.innerHTML="";
                     InsertTable();
                     resetForm();
