@@ -190,7 +190,7 @@
                 }
                 else{
                     input[i].nextElementSibling.innerHTML="";
-                    input[i].style.borderColor="none"
+                    input[i].style.borderColor="#DCDCDC"
                 }
             }
 
@@ -215,7 +215,7 @@
             }
             else{
                 lng.innerHTML="";
-                // langue.style.borderColor="green"
+                langue.style.borderColor="#DCDCDC"
                 
             }
             //// validation => email
@@ -223,7 +223,7 @@
             if(email.value !=="" ){
                 if(regexEmail.test(email.value)){
                      errorEmail.innerHTML=" "
-                     email.style.border="none"
+                     email.style.borderColor="#DCDCDC"
                 }
                 else{
                     errorEmail.innerHTML="Format Email not valid";
@@ -240,7 +240,7 @@
             if(date.value!==""){
                 if(regexPrice.test(date.value)){
                      msgDate.innerHTML="";
-                     msgDate.style.border="none"
+                     msgDate.style.borderColor="#DCDCDC"
                 }
                 else{
                     msgDate.innerHTML="Format date not valid";
