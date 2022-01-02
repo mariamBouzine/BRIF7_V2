@@ -59,21 +59,21 @@
                 <label>Language :</label><br>
                 <select id="langue" name="langue">
                     <option disabled selected hidden value="0">-- select langue--</option>
-                    <option value="Français">Français</option>
-                    <option value="Anglais">Anglais</option>
-                    <option value="Arabe">Arabe</option>
+                    <option value="Français">French</option>
+                    <option value="Anglais">English</option>
+                    <option value="Arabe">Arab</option>
                 </select>
                 <p id="lng" ></p>
             </div>
             <br><br>
             <!--RADIO BUTTON -->
             <div class="radio">        
-                <input type="radio" id="Roman" name="season" value="Roman" class="type" id="radio1"> Roman
+                <input type="radio" id="Roman" name="season" value="Roman" class="type" id="radio1"> Novel
                 <!-- <label for="Roman">Roman</label> -->
                 <input type="radio" id="Essai" name="season" value="Essai" class="type" >
                 <label for="Essai">Essai</label>
                 <input type="radio" id="Bande-Dessinée" name="season" value="Bande-Dessinée" class="type"  >
-                <label for="Bande-Dessinée">Bande-Dessinée</label>
+                <label for="Bande-Dessinée">Comic</label>
                 <p id="radiobtn"></p>
             </div>
             <br>
@@ -146,7 +146,7 @@
                 this.Type=Type;        
             }
             DétailOuvrage(){
-                return "L'ouvrage " +  this.Titre + " est un " + this.Type + " en langue " + this.Langue + ", écrit par " + this.Nom_lauteur + " et publié le "+  this.date +". Le prix de "+ this.Titre + " est de "+ this.Prix + "Dhs.";
+                return "The book" +  this.Titre + " is an " + this.Type + " in language " + this.Langue + ", written by " + this.Nom_lauteur + " and published on "+  this.date +". The price of "+ this.Titre + " is "+ this.Prix + "Dhs.";
             }
         }
 
