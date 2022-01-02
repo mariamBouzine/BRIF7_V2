@@ -298,13 +298,11 @@
                     table.innerHTML="";
                     InsertTable();
                     resetForm();
-                    // var lbl=document.getElementsByTagName("label");
-                    // for(var i = 0; i<8;i++){
-                    //     lbl[i].innerHTML = "";         
-                    // } 
             }
         }
     document.getElementsByTagName("form")[0].addEventListener('submit', validation);
+
+    //////////////// trie //////////////////
     function trie(){
         list.sort(function(a,b){
             if(a.Titre.toUpperCase() < b.Titre.toUpperCase())
