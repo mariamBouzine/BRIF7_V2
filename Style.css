@@ -19,7 +19,7 @@ body{
     border-radius: 30px;
     line-height: 25px;
     margin-left: 30px;
-    margin-top: 100px;
+    margin-top: 74px;
 }
 
 .box{
@@ -63,7 +63,7 @@ body{
 }
 #btn {
     position: absolute;
-    left: 365px;
+    left: 350px;
 }
 #btnPrint{
     position: absolute;
@@ -94,7 +94,7 @@ body{
 }
 table{
     position: absolute;
-    left: 522PX;
+    left: 488PX;
     top: 435px;
     color: #fff;
 }
@@ -159,7 +159,7 @@ table th {
 .demo{
     background-color: #eccba2;
     position: absolute;
-    left: 522PX;
+    left: 490PX;
     top: 365px;
     padding: 10px;
     border-radius: 10px;
